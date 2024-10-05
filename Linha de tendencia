@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <math.h>
+
+int main(){
+	int qtdCotacoes;
+	printf("Qual o numero de cotacoes? ");
+	do{
+		scanf("%d", &qtdCotacoes);
+	}while(qtdCotacoes <= 1);
+	float cotacoes[qtdCotacoes];
+	printf("Informe as cotacoes em ordem cronologica");
+	for(int n=0; n<qtdCotacoes; n++){
+		printf("\n");
+		printf("Cotacao numero %d: ", n+1);
+		scanf("%f", &cotacoes[n]);
+	}
+	float k = 0, l = 0, m = 0, p = 0;
+
+	for(int i = 1; i <= qtdCotacoes; i++){
+		k += i*i;
+	}
+	for(int i = 1; i <= qtdCotacoes; i++){
+		l += i;
+	}
+	for(int i = 0; i < qtdCotacoes; i++){
+		m += cotacoes[i];
+	}
+	for(int i = 0; i < qtdCotacoes; i++){
+		p += cotacoes[i]*(i+1);
+	}
+	
+	float a0 = ((m * k) - (l * p)) / ((qtdCotacoes * k) - (l*l));
+	float a1 = ((qtdCotacoes * p) - (m * l)) / ((qtdCotacoes * k) - (l*l));
+	
+	(a1 > 0) ? 	printf("A linha de tendencia e T(x) = %.3f + %.3f * x", a0, a1) : 	printf("A linha de tendencia e T(x) = %.3f %.3f * x", a0, a1);
+	
+	return 0;
+}
