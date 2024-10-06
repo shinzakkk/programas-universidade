@@ -1,0 +1,64 @@
+#include <stdio.h>
+
+void ZerarMatriz(float matriz[25][25]){
+	int i, j;
+	for(i = 0; i < 25; i++){
+		for(j=0; j< 25; j++){
+			matriz[i][j] = 0;
+		}
+	}
+}
+
+void InformarTempo(float matriz[25][25], int i, int j){
+	printf("Informe o tempo de estacionamento da vaga, em horas: ");
+	scanf("%f", &matriz[i][j]);
+}
+
+float ValorVaga(float matriz[25][25], int i, int j){
+	float tempo = matriz[i][j];
+	float valor;
+	if (tempo >= 0 && tempo < 0.25 ){
+		valor = 0;
+	} else if(0.25 <= tempo && tempo < 4){
+		valor = 6.0;
+	}else if(4 <= tempo && tempo < 12){
+		int tempoInt = tempo;
+		valor = 6.0 + 2.0*(tempoInt -3);
+	}else if(12 <= tempo){
+		valor = 22.0 + 10.0;
+	}
+	return valor;
+}
+
+int main(){
+	float matriz[25][25];
+	ZerarMatriz(matriz);
+	int i, j, opcao;
+	float valor;
+	do{
+		printf("Escolha o que deseja fazeer:\n1 - Inserir o tempo de estacionamento em alguma vaga.\n2 - Imprimir o valor da vaga selecionada\n3 - Sair.\n");
+		scanf("%d", &opcao);
+		switch(opcao){
+			case 1:
+				printf("Selecione a linha e a coluna, respectivamente, da vaga que deseja estacionar: ");
+				scanf("%d %d", &i, &j);
+				InformarTempo(matriz, i, j);
+				break;
+			case 2:
+				printf("Escolha a linha e a coluna, respectivamente, da vaga que voce deseja saber o valor a ser cobrado: ");
+				scanf("%d %d", &i, &j);
+				valor = ValorVaga(matriz, i, j);
+				printf("%.2f reais", valor);
+				break;
+			case 3:
+				printf("Saindo. . .");
+				break;
+			default:
+				break;
+		}
+		printf("\n");
+	}while (opcao != 3);
+	
+	return 0;
+	
+}
