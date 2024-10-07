@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <string.h>
+#define M 1024
+
+//struct de dados
+typedef struct{
+	char ipOrigem[16];
+	int portaOrigem;
+	char ipDestino[16];
+	int portaDestino;
+	int conteudo[256];
+}Dado;
+
+//comaparação de pacotes
+int comparaPacotes(Dado pacoteA, Dado pacoteB){
+	return (strcmp(pacoteA.ipOrigem, pacoteB.ipOrigem)==0 && strcmp(pacoteA.ipDestino, pacoteB.ipDestino)==0) ? 1 : 0;
+}
+
+//leitura de informaçoes do pacote
+Dado lerPacote(){
+	Dado pacote;
+	fflush(stdin);
+	printf("Qual o ip de origem do pacote?\n");
+	fgets(pacote.ipOrigem, 16, stdin);
+	fflush(stdin);
+	printf("Qual a porta de origem do pacote?\n");
+	scanf("%d", &pacote.portaOrigem);
+	fflush(stdin);
+	printf("Qual o ip de destino do pacote?\n");
+	fgets(pacote.ipDestino, 16, stdin);
+	printf("Qual a porta de destino do pacote?\n");
+	scanf("%d", &pacote.portaDestino);
+	fflush(stdin);
+	printf("Digite o conteudo do pacote: ");
+	scanf("%d", &pacote.conteudo);
+	
+	return pacote;
+}
+
+int main(){
+	int aceitos, bloqueados, n, i, j, k, continuar;
+	aceitos = 0;
+	bloqueados = 0;
+	//informar quantos pacotes devem ser bloquados, no minimo zero, ou seja: nenhum.
+	printf("Quantos pacotes devem ser bloquados pelo filtro do firewall?\n");
+	do{
+		scanf("%d", &n);
+	}while(n<0);
+	
+	Dado filtro[n];
+	
+	//informando os pacotes que o firewall deve bloquear
+	for(i=0; i<n; i++){
+		printf("Insira as informacoes dos pacotes bloquados, nao preencha o campo de conteudo.\n");
+		filtro[i] = lerPacote();
+	}
+	
+	Dado pacotes[M];
+	//informar os pacotes que serao lidos, caso digite zero parar a execuçao.
+	k=0;
+	do{
+		printf("Insira as informacoes do pacote.\n");
+		pacotes[k] = lerPacote();
+		k++;
+		printf("Deseja continuar? se nao digite 0: ");
+		scanf("%d", &continuar);
+		if (continuar == 0){
+			break;
+		}
+		
+	}while(k<M);
+	
+	/*cada pacote sera comparado a todos os filtros do firewaal antes de passar para o proximo
+	se o filtro for bloqueado ira aumentar o contador de bloqueio
+	caso contrario ira aumentar o contador de aceitoss*/
+	for(i=0; i<k; i++){
+		for(j=0; j<n; j++){
+			if(comparaPacotes(pacotes[i], filtro[j])==1){
+				bloqueados++;
+				printf("Pacote Bloquado!\n");
+			}else{
+				aceitos++;
+			}
+		}
+	}
+	
+	printf("Relacao percentual dos pacotes bloqueados e aceitos:\nPacotes aceitos: %.2f\nPacotes Bloqueados: %.2f", (float)aceitos/(bloqueados+aceitos) * 100, (float)bloqueados/(aceitos+bloqueados)*100);
+}
