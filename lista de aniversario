@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+
+int insere_nome(char nome[15], char lista[100][15], int cadastros){
+	if (strcmp(nome, lista[cadastros])==0){
+		return 0;
+	}else{
+		strcpy(lista[cadastros], nome);
+		return 1;
+	}
+}
+
+int conta_letra(char letra, char lista[100][15], int cadastros){
+	int contador = 0;
+	for(int i=0; i<cadastros; i++){
+		if(letra == lista[i][0]){
+			contador++;
+		}
+	}
+	return contador;
+}
+
+int main(){
+	char lista[100][15];
+	char nome[15];
+	int cadastros = 0;
+	int i;
+	char letra;
+	int convidados;
+	
+	do{
+		printf("Insira o nome: ");
+		fgets(nome, 15, stdin);
+		if(strcmp(nome, "0\n")==0){
+			break;
+		}
+		cadastros += insere_nome(nome, lista, cadastros);
+	}while(cadastros < 100);
+	
+	for(i=0; i<cadastros; i++){
+		printf("%s", lista[i]);
+	}
+	printf("A festa possui %d convidados\n", cadastros);
+	printf("Selecione uma letra para saber quantos convidados tem essa inicial: ");
+	scanf("%c", &letra);
+	convidados = conta_letra(letra, lista, cadastros);
+	printf("Existe %d convidados com a inicial %c", convidados, letra);
+}
