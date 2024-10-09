@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#define N 3
+
+float media(int municipios[][N], int i){
+	int j;
+	float soma1 = 0;
+	for(j=0; j<N; j++){
+		soma1 += municipios[i][j];
+	}
+	return soma1/N;
+}
+
+float desvioPadrao(int municipios[][N], int i){
+	float soma2 = 0;
+	float valorMedio = media(municipios, i);
+	for(int j=0; j<N; j++){
+		soma2 += pow(municipios[i][j] - valorMedio,2);
+	}
+	float desvioP = sqrt(soma2/N);
+	return desvioP;
+}
+
+int main(){
+	int m;
+	do{
+		printf("Quantos municipios irao participar da pesquisa?\n");
+		scanf("%d", &m);
+	}while(m < 3 || m > 100);
+	int municipios[m][N];
+	char municipioNome[m][30];
+	
+	for(int a=0; a<m; a++){
+		printf("Insira o nome da cidade: ");
+		scanf("%s", &municipioNome[a]);
+		for(int b=0; b<N; b++){
+			printf("Niveis de escolaridade\n0 - analfabeto;\n1 - alfabetizado.\n2 - Ensino medio.\n4 - Superior.\nInforme a escolaridade do cidadao %d: ", b+1);
+			scanf("%d", &municipios[a][b]);
+			fflush(stdin);
+		}
+	}
+	for(int c=0; c<m; c++){
+		printf("%s - media: %f, desvio padrao: %f\n", municipioNome[c], media(municipios, c), desvioPadrao(municipios,c));
+	}
+	
+}
