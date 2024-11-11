@@ -79,14 +79,14 @@ void statusPersonagem(Persona *MC, FILE *mcArquivo){
         printf("Erro ao abrir o arquivo.");
     } else {
         fscanf(mcArquivo, "Nome: %49[^\n]\n", MC->nome);
-        fscanf(mcArquivo, "Nivel: %d\n", MC->lvl);
-        fscanf(mcArquivo, "Experiencia: %d\n", MC->exp);
-        fscanf(mcArquivo, "Ouro: %d\n", MC->ouro);
-        fscanf(mcArquivo, "HP: %d\n", MC->hp);
-        fscanf(mcArquivo, "MP: %d\n", MC->mp);
-        fscanf(mcArquivo, "Ataque: %d\n", MC->ata);
-        fscanf(mcArquivo, "Defesa: %d\n", MC->def);
-        fscanf(mcArquivo, "Agilidade: %d\n", MC->agi);
+        fscanf(mcArquivo, "Nivel: %d\n", &MC->lvl);
+        fscanf(mcArquivo, "Experiencia: %d\n", &MC->exp);
+        fscanf(mcArquivo, "Ouro: %d\n", &MC->ouro);
+        fscanf(mcArquivo, "HP: %d\n", &MC->hp);
+        fscanf(mcArquivo, "MP: %d\n", &MC->mp);
+        fscanf(mcArquivo, "Ataque: %d\n", &MC->ata);
+        fscanf(mcArquivo, "Defesa: %d\n", &MC->def);
+        fscanf(mcArquivo, "Agilidade: %d\n", &MC->agi);
         
         printf("Status do personagem:\n");
         
