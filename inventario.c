@@ -3,13 +3,6 @@
 #include "personagem.h"
 #define N 50
 
-typedef struct{
-	int hpPotion;
-	int mpPotion;
-	int atkBooster;
-	int defBooster;
-	int agiBooster;
-}Consumiveis;
 
 void inventario(){
 	/*Criarei alguns itens de teste que vao curar vida ou mana e alguns para melhorar atributos temporariamente*/
@@ -27,13 +20,13 @@ void inventario(){
     	getchar();
     	switch(opt){
     		case 1:
-    			comprarItem(&itens, itensARQ);
+    			comprarItem(&itens);
     			break;
     		case 2:
-    			viewInventario(&itens, itensARQ);
+    			viewInventario(&itens);
     			break;
     		case 3:
-    			descartarItem(&itens, itensARQ);
+    			descartarItem(&itens);
     			break;
     		case 4:
     			printf("Saindo. . .\n");
@@ -47,6 +40,7 @@ void inventario(){
 
 void comprarItem(Consumiveis *itens){
 	/*uma funçao para comprar itens*/
+	int shopping;
 	do{
 		printf("Qual item voce deseja comprar?");
 		printf("1. HP Potion - 20o.\nDescricao: Cura 20 pontos do HP total.");
@@ -92,8 +86,8 @@ void comprarItem(Consumiveis *itens){
 		}	
 	}while(shopping != 6);
 	
-	itensARQ = fopen("inventario.txt", "w");
-	if(mcArquivo == NULL){
+	FILE *itensARQ = fopen("inventario.txt", "w");
+	if(itensARQ == NULL){
 	    printf("Erro ao abrir o arquivo.");
 		} else {
 		    fprintf(itensARQ, "HP Potion: %d x\n", itens->hpPotion);
@@ -108,8 +102,8 @@ void comprarItem(Consumiveis *itens){
 
 void viewInventario(Consumiveis *itens){
 	//correspondente ao Read do CRUD
-	mcArquivo = fopen("inventario.txt", "r");
-    if(mcArquivo == NULL){
+	FILE *itensARQ = fopen("inventario.txt", "r");
+    if(itensARQ == NULL){
         printf("Erro ao abrir o arquivo.");
     } else {
         fscanf(itensARQ, "HP Potion: %d x\n", &itens->hpPotion);
@@ -130,7 +124,7 @@ void viewInventario(Consumiveis *itens){
     }
 }
 
-void descartarItem(Persona *MC){
+void descartarItem(Consumiveis *itens){
 	int descarte;
 	do{
 		printf("Qual item voce deseja descartar?");
@@ -145,7 +139,7 @@ void descartarItem(Persona *MC){
 		switch(descarte){
 			case 1:
 				if(hpPotion <= 0){
-					printf("Voce nao possui esse item para dascartar!")
+					printf("Voce nao possui esse item para dascartar!");
 				}else{
 					printf("1x HP Potion descartado!");
 					hpPotion--;
@@ -153,7 +147,7 @@ void descartarItem(Persona *MC){
 				break;
 			case 2:
 				if(mpPotion <= 0){
-					printf("Voce nao possui esse item para dascartar!")
+					printf("Voce nao possui esse item para dascartar!");
 				}else{
 					printf("1x MP Potion descartado!");
 					mpPotion--;
@@ -161,7 +155,7 @@ void descartarItem(Persona *MC){
 				break;
 			case 3:
 				if(atkBooster <= 0){
-					printf("Voce nao possui esse item para dascartar!")
+					printf("Voce nao possui esse item para dascartar!");
 				}else{
 					printf("1x ATK Booster descartada!");
 					atkBooster--;
@@ -169,7 +163,7 @@ void descartarItem(Persona *MC){
 				break;
 			case 4:
 				if(defBooster <= 0){
-					printf("Voce nao possui esse item para dascartar!")
+					printf("Voce nao possui esse item para dascartar!");
 				}else{
 					printf("1x DEF Booster descartada!");
 					defBooster--;
@@ -177,7 +171,7 @@ void descartarItem(Persona *MC){
 				break;
 			case 5:
 				if(agiBooster <= 0){
-					printf("Voce nao possui esse item para dascartar!")
+					printf("Voce nao possui esse item para dascartar!");
 				}else{
 					printf("1x AGI Booster descartada!");
 					agiBooster--;
@@ -192,8 +186,8 @@ void descartarItem(Persona *MC){
 		}	
 	}while(descarte != 6);
 	
-	itensARQ = fopen("inventario.txt", "w");
-	if(mcArquivo == NULL){
+	FILE* itensARQ = fopen("inventario.txt", "w");
+	if(itensARQ == NULL){
 	    printf("Erro ao abrir o arquivo.");
 		} else {
 		    fprintf(itensARQ, "HP Potion: %d x\n", itens->hpPotion);
