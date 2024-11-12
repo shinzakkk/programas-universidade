@@ -4,7 +4,7 @@
 #define N 50
 
 
-void inventario(){
+void inventario(Persona *MC){
 	/*Criarei alguns itens de teste que vao curar vida ou mana e alguns para melhorar atributos temporariamente*/
 	Consumiveis itens = {0, 0, 0, 0, 0};
 	FILE *itensARQ;
@@ -20,13 +20,13 @@ void inventario(){
     	getchar();
     	switch(opt){
     		case 1:
-    			comprarItem(&itens);
+    			comprarItem(&itens, &MC);
     			break;
     		case 2:
     			viewInventario(&itens);
     			break;
     		case 3:
-    			descartarItem(&itens);
+    			descartarItem(&itens, &MC);
     			break;
     		case 4:
     			printf("Saindo. . .\n");
@@ -38,7 +38,7 @@ void inventario(){
     
 }
 
-void comprarItem(Consumiveis *itens){
+void comprarItem(Consumiveis *itens, Persona *MC){
 	/*uma funçao para comprar itens*/
 	int shopping;
 	do{
@@ -54,28 +54,28 @@ void comprarItem(Consumiveis *itens){
 		switch(shopping){
 			case 1:
 				printf("1x HP Potion comprada!");
-				hpPotion++;
-				MC.ouro -= 20;
+				itens->hpPotion++ ;
+				MC->ouro -= 20;
 				break;
 			case 2:
 				printf("1x MP Potion comprada!");
-				mpPotion++;
-				MC.ouro -= 15;
+				itens->mpPotion++;
+				MC->ouro -= 15;
 				break;
 			case 3:
 				printf("1x ATK Booster comprado!");
-				atkBooster++;
-				MC.ouro -= 30;
+				itens->atkBooster++;
+				MC->ouro -= 30;
 				break;
 			case 4:
 				printf("1x DEF Booster comprado!");
-				defBooster++;
-				MC.ouro -= 30;
+				itens->defBooster++;
+				MC->ouro -= 30;
 				break;
 			case 5:
 				printf("1x AGI Booster comprado!");
-				agiBooster++;
-				MC.ouro -= 30;
+				itens->agiBooster++;
+				MC->ouro -= 30;
 				break;
 			case 6:
 				printf("Saindo. . .\n");
@@ -124,7 +124,7 @@ void viewInventario(Consumiveis *itens){
     }
 }
 
-void descartarItem(Consumiveis *itens){
+void descartarItem(Consumiveis *itens, Persona *MC){
 	int descarte;
 	do{
 		printf("Qual item voce deseja descartar?");
@@ -138,43 +138,43 @@ void descartarItem(Consumiveis *itens){
 		scanf("%d", &descarte);
 		switch(descarte){
 			case 1:
-				if(hpPotion <= 0){
+				if(itens->hpPotion <= 0){
 					printf("Voce nao possui esse item para dascartar!");
 				}else{
 					printf("1x HP Potion descartado!");
-					hpPotion--;
+					itens->hpPotion--;
 				}
 				break;
 			case 2:
-				if(mpPotion <= 0){
+				if(itens->mpPotion <= 0){
 					printf("Voce nao possui esse item para dascartar!");
 				}else{
 					printf("1x MP Potion descartado!");
-					mpPotion--;
+					itens->mpPotion--;
 				}
 				break;
 			case 3:
-				if(atkBooster <= 0){
+				if(itens->atkBooster <= 0){
 					printf("Voce nao possui esse item para dascartar!");
 				}else{
 					printf("1x ATK Booster descartada!");
-					atkBooster--;
+					itens->atkBooster--;
 				}
 				break;
 			case 4:
-				if(defBooster <= 0){
+				if(itens->defBooster <= 0){
 					printf("Voce nao possui esse item para dascartar!");
 				}else{
 					printf("1x DEF Booster descartada!");
-					defBooster--;
+					itens->defBooster--;
 				}
 				break;
 			case 5:
-				if(agiBooster <= 0){
+				if(itens->agiBooster <= 0){
 					printf("Voce nao possui esse item para dascartar!");
 				}else{
 					printf("1x AGI Booster descartada!");
-					agiBooster--;
+					itens->agiBooster--;
 				}
 				break;
 			case 6:
