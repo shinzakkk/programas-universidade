@@ -5,9 +5,8 @@
 
 int pts = 10;
 
-void personagem(){
-	Persona MC;
-	FILE *mcArquivo;
+void personagem(Persona *MC){
+
     int opt;
     do{
     	printf("O que deseja fazer com o personagem?\n");
@@ -21,16 +20,16 @@ void personagem(){
     	getchar();
     	switch(opt){
     		case 1:
-    			criarPersonagem(&MC, mcArquivo);
+    			criarPersonagem(MC);
     			break;
     		case 2:
-    			statusPersonagem(&MC, mcArquivo);
+    			statusPersonagem(MC);
     			break;
     		case 3:
-    			upPersonagem(&MC, pts, mcArquivo);
+    			upPersonagem(MC, pts);
     			break;
     		case 4:
-    			deletePersonagem(&MC, mcArquivo);
+    			deletePersonagem(MC);
     			break;
     		case 5:
     			printf("Saindo. . .\n");
@@ -42,7 +41,7 @@ void personagem(){
     
 }
 
-void criarPersonagem(Persona *MC, FILE *mcArquivo){
+void criarPersonagem(Persona *MC){
 	//corresponde ao Creat do CRUD
     MC->lvl = 1;
     MC->exp = 0;
@@ -54,7 +53,7 @@ void criarPersonagem(Persona *MC, FILE *mcArquivo){
     MC->ouro = 500;
     printf("Insira o nome do personagem: ");
     fgets(MC->nome, N, stdin);
-    mcArquivo = fopen("personagem.txt", "w");
+    FILE *mcArquivo = fopen("personagem.txt", "w");
     if(mcArquivo == NULL){
         printf("Erro ao abrir o arquivo.");
     } else {
@@ -72,9 +71,9 @@ void criarPersonagem(Persona *MC, FILE *mcArquivo){
 	
 }
 
-void statusPersonagem(Persona *MC, FILE *mcArquivo){
+void statusPersonagem(Persona *MC){
 	//correspondente ao Read do CRUD
-	mcArquivo = fopen("personagem.txt", "r");
+	FILE *mcArquivo = fopen("personagem.txt", "r");
     if(mcArquivo == NULL){
         printf("Erro ao abrir o arquivo.");
     } else {
@@ -104,7 +103,7 @@ void statusPersonagem(Persona *MC, FILE *mcArquivo){
     }
 }
 
-void upPersonagem(Persona *MC, int pts, FILE *mcArquivo){
+void upPersonagem(Persona *MC, int pts){
 	//refere-se ao Update de CRUD
 	printf("Distribua os pontos do personagem\n");
 	
@@ -140,7 +139,7 @@ void upPersonagem(Persona *MC, int pts, FILE *mcArquivo){
             break;
             }
         }while(pts > 0);
-    mcArquivo = fopen("personagem.txt", "w");
+    FILE *mcArquivo = fopen("personagem.txt", "w");
     if(mcArquivo == NULL){
         printf("Erro ao abrir o arquivo.");
     } else {
@@ -159,7 +158,7 @@ void upPersonagem(Persona *MC, int pts, FILE *mcArquivo){
     	}
     }
 
-void deletePersonagem(Persona *MC, FILE *mcArquivo){
+void deletePersonagem(Persona *MC){
 	//corresponde ao Delete do CRUD
 	if(remove("personagem.txt") == 0){
 		printf("Personagem apagado com sucesso!");
