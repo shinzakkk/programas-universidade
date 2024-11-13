@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <string.h>
+
+struct Jogador{
+	char nome[50];
+	int linha, coluna;
+}typedef Jogador;
+
+void inicializeJogador(Jogador *jogador, const char *nome, int linha, int coluna){
+	strcpy(jogador->nome, nome);
+	jogador->linha = linha;
+	jogador->coluna = coluna;
+}
+
+void imprimeJogador(Jogador *jogador){
+	printf("Nome do jogador: %s\n Posicao: (%d, %d).\n", jogador->nome, jogador->linha, jogador->coluna);
+}
+
+void moveJogador(Jogador *jogador, int posicao[2], int mapa[linhas][colunas], int linhas, int colunas){
+	int novaLinha = posicao[0];
+	int novaColuna = posicao[1];
+	if (novaLinha >= 0 && novaLinha < linhas && novaColuna >= 0 && novaColuna < colunas && mapa[novaLinha][novaColuna] != 2){
+		jogador->linha = novaLinha;
+		jogador->coluna = novaColuna;
+		printf("Movimento realizado com sucesso!\n");
+	}else{
+		printf("Movimento invalido. Voce encontrou uma pared eou esta fora dos limites.\n");
+	}
+}
+
+int main(){
+	FILE *arquivo = fopen("mapa.dat", "r");
+	if (arquivo == NULL){
+		printf("Erro ao abrir o arquivo mapa.dat\n");
+		return 1;
+	}
+	int linhas, colunas;
+	fscanf(arquivo, "%d %d", &linhas, &colunas);
+	int mapa[linhas][colunas];
+	for(int i = 0; i<linhas; i++){
+		for(int j = 0; j<colunas; j++){
+			fscanf(arquivo, "%d", &mapa[i][j]);
+		}
+	}
+	
+	fclose(arquivo);
+	
+	Jogador jogador;
+	char nome[50];
+	scanf("%49[^\n]", nome);
+	inicializeJogador(&jogador, nome, 0, 0);
+	
+	int opcao;
+	int movimento[2];
+	do{
+		printf("\n--- Menu ---\n");
+		printf("1. Mover o jogador.\n2. Exibir posicao do jogador.\n3. Sair.\n");
+		printf("Escolha uma opcao: ");
+		scanf("%d", &opcao);
+		
+		switch(opcao){
+			case 1:
+				printf("Digite a direcao do movimento(linha, coluna): ");
+				scanf("%d %d", &movimento[0], &movimento[1]);
+				moveJogador(&jogador, movimento, mapa, linhas, colunas);
+				break;
+			case 2:
+				imprimeJogador(&jogador);
+				break;
+			case 3:
+				printf("Saindo. . .\n");
+				break;
+			default:
+				printf("Opcao invalida. Tente novamente.\n");
+		}
+	}while(opcao!=3);
+	return 0;
+}
